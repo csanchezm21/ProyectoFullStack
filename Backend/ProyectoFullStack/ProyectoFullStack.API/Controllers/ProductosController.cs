@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFullStack.API.Models;
+using ProyectoFullStack.API.Interfaces;
 
 namespace ProyectoFullStack.API.Controllers
 {
@@ -8,33 +9,17 @@ namespace ProyectoFullStack.API.Controllers
     [ApiController]
     public class ProductosController : ControllerBase
     {
+        private readonly IProductoService _productoService;
+
+        public ProductosController(IProductoService productoService)
+        {
+            _productoService = productoService;
+        }
+
         [HttpGet]
         public IActionResult ObtenerProductos()
         {
-            var productos = new List<Producto>()
-            {
-                new Producto
-                {
-                    Id = 1,
-                    Nombre = "Mouse Gamer",
-                    Precio = 85000,
-                    Stock = 10
-                },
-                new Producto
-                {
-                    Id = 2,
-                    Nombre = "Teclado mecanico",
-                    Precio = 100000,
-                    Stock = 5
-                },
-                new Producto
-                {
-                    Id = 3,
-                    Nombre = "Monitor Samsung",
-                    Precio = 950000,
-                    Stock = 3
-                }
-                };
+            var productos = _productoService.ObtenerProductos();
             return Ok(productos);
             }
         }

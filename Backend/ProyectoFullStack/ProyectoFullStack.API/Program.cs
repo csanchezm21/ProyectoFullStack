@@ -1,5 +1,10 @@
+using ProyectoFullStack.API.Interfaces;
+using ProyectoFullStack.API.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
+
+builder.Services.AddScoped<IProductoService, ProductoService>();
 // Add services to the container.
 
 builder.Services.AddControllers();
