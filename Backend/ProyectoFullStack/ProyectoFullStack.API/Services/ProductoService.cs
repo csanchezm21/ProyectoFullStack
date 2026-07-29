@@ -14,7 +14,7 @@ namespace ProyectoFullStack.API.Services
         }
         public List<Producto> ObtenerProductos()
         {
-           return _context.Productos.ToList();
+            return _context.Productos.ToList();
         }
         public Producto CrearProducto(Producto producto)
         {
@@ -24,8 +24,22 @@ namespace ProyectoFullStack.API.Services
         }
         public Producto? ObtenerProductoPorId(int id)
         {
-            return _context.Productos.FirstOrDefault(p => p.Id == id);
+            return _context.Productos.Find(id);
 
+        }
+        public void ActualizarProducto(int id, Producto producto)
+        {
+            var productoExistente = _context.Productos.Find(id);
+            if (productoExistente == null)
+
+            {
+                return;
+            }
+            productoExistente.Nombre = producto.Nombre;
+            productoExistente.Precio = producto.Precio;
+            productoExistente.Stock = producto.Stock;
+
+            _context.SaveChanges();
         }
     }
 }

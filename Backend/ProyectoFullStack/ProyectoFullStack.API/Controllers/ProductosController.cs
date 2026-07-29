@@ -36,6 +36,28 @@ namespace ProyectoFullStack.API.Controllers
                 },
                 nuevoProducto);
         }
+        [HttpGet("{id}")]
+        public IActionResult ObtenerProductoPorId(int id)
+        {
+            var producto = _productoService.ObtenerProductoPorId(id);
+            if (producto == null)
+            {
+                return NotFound();
+            }
+            return Ok(producto);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult ActualizarProducto(int id, [FromBody] Producto producto)
+        {
+            var productoExistente = _productoService.ObtenerProductoPorId(id);
+            if (productoExistente == null)
+            {
+                return NotFound();
+            }
+            _productoService.ActualizarProducto(id, producto);
+            return NoContent();
+        }
     }
 }
 
