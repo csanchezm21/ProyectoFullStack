@@ -16,5 +16,16 @@ namespace ProyectoFullStack.API.Services
         {
            return _context.Productos.ToList();
         }
+        public Producto CrearProducto(Producto producto)
+        {
+            _context.Productos.Add(producto);
+            _context.SaveChanges();
+            return producto;
+        }
+        public Producto? ObtenerProductoPorId(int id)
+        {
+            return _context.Productos.FirstOrDefault(p => p.Id == id);
+
+        }
     }
 }

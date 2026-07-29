@@ -21,7 +21,21 @@ namespace ProyectoFullStack.API.Controllers
         {
             var productos = _productoService.ObtenerProductos();
             return Ok(productos);
-            }
+        }
+
+        [HttpPost]
+        public IActionResult CrearProducto([FromBody] Producto producto)
+        {
+            var nuevoProducto = _productoService.CrearProducto(producto);
+
+            return CreatedAtAction(
+                nameof(ObtenerProductos),
+                new
+                {
+                    id = nuevoProducto.Id
+                },
+                nuevoProducto);
         }
     }
+}
 
