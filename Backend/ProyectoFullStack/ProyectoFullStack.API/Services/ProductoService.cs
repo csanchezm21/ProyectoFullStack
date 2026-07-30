@@ -41,5 +41,16 @@ namespace ProyectoFullStack.API.Services
 
             _context.SaveChanges();
         }
+        public void EliminarProducto (int id)
+        {
+            var producto = _context.Productos.Find(id);
+            if (producto == null)
+            {
+                throw new Exception("Producto no encontrado.");
+            }
+            
+            _context.Productos.Remove(producto);
+            _context.SaveChanges();
+        }
     }
 }

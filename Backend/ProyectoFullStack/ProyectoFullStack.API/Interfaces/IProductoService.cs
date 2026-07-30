@@ -9,6 +9,9 @@ namespace ProyectoFullStack.API.Interfaces
         Producto? ObtenerProductoPorId(int id);
         Producto CrearProducto(Producto producto);
 
-        void ActualizarProducto(int id, Producto producto);    
+        void ActualizarProducto(int id, Producto producto);
+        void EliminarProducto(int id);
+        
+        
     }
 }

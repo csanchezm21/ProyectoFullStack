@@ -58,6 +58,18 @@ namespace ProyectoFullStack.API.Controllers
             _productoService.ActualizarProducto(id, producto);
             return NoContent();
         }
-    }
+        [HttpDelete("{id}")]
+        public IActionResult EliminarProducto(int id)
+        {
+            var producto = _productoService.ObtenerProductoPorId(id);
+
+            if (producto ==null)
+            {
+                return NotFound("Producto no encontrado. ");
+            }
+            _productoService.EliminarProducto(id);
+            return NoContent();
+        }
+    }   
 }
 
