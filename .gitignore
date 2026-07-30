@@ -1,0 +1,16 @@
+# Carpetas generadas por la compilación
+bin/
+obj/
+
+# Visual Studio
+.vs/
+
+# Configuración personal del usuario
+*.user
+*.suo
+
+# Archivos de Rider
+.idea/
+
+# Logs
+*.log
