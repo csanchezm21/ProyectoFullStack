@@ -1,15 +1,15 @@
 ﻿using ProyectoFullStack.API.Models;
-
+using ProyectoFullStack.API.DTOs;
 namespace ProyectoFullStack.API.Interfaces
 {
     public interface IProductoService
     {
-        List<Producto> ObtenerProductos();
+        IEnumerable<ProductoResponseDto> ObtenerProductos();
         
-        Producto? ObtenerProductoPorId(int id);
-        Producto CrearProducto(Producto producto);
+        ProductoResponseDto? ObtenerProductoPorId(int id);
+        ProductoResponseDto CrearProducto(ProductoCreateDto productoDto);
 
-        void ActualizarProducto(int id, Producto producto);
+        void ActualizarProducto(int id, ProductoUpdateDto productoDto);
         void EliminarProducto(int id);
         
         

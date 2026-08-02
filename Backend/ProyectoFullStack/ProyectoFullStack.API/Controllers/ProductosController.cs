@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using ProyectoFullStack.API.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFullStack.API.Models;
 using ProyectoFullStack.API.Interfaces;
@@ -24,12 +25,12 @@ namespace ProyectoFullStack.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CrearProducto([FromBody] Producto producto)
+        public IActionResult CrearProducto([FromBody] ProductoCreateDto productoDto)
         {
-            var nuevoProducto = _productoService.CrearProducto(producto);
+            var nuevoProducto = _productoService.CrearProducto(productoDto);
 
             return CreatedAtAction(
-                nameof(ObtenerProductos),
+                nameof(ObtenerProductoPorId),
                 new
                 {
                     id = nuevoProducto.Id
@@ -48,14 +49,14 @@ namespace ProyectoFullStack.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult ActualizarProducto(int id, [FromBody] Producto producto)
+        public IActionResult ActualizarProducto(int id, [FromBody] ProductoUpdateDto productoDto)
         {
             var productoExistente = _productoService.ObtenerProductoPorId(id);
             if (productoExistente == null)
             {
                 return NotFound();
             }
-            _productoService.ActualizarProducto(id, producto);
+            _productoService.ActualizarProducto(id, productoDto);
             return NoContent();
         }
         [HttpDelete("{id}")]

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoFullStack.API.Data;
+using ProyectoFullStack.API.DTOs;
 using ProyectoFullStack.API.Interfaces;
 using ProyectoFullStack.API.Models;
+
 
 namespace ProyectoFullStack.API.Services
 {
@@ -12,22 +14,55 @@ namespace ProyectoFullStack.API.Services
         {
             _context = context;
         }
-        public List<Producto> ObtenerProductos()
+        public IEnumerable<ProductoResponseDto> ObtenerProductos()
         {
-            return _context.Productos.ToList();
+            return _context.Productos.Select(p => new ProductoResponseDto
+            {
+                Id = p.Id,
+                Nombre = p.Nombre,
+                Precio = p.Precio,
+                Stock = p.Stock,
+            })
+                .ToList();
         }
-        public Producto CrearProducto(Producto producto)
+        public ProductoResponseDto CrearProducto(ProductoCreateDto productoDto)
         {
-            _context.Productos.Add(producto);
+            var producto = new Producto
+            {
+                Nombre = productoDto.Nombre,
+                Precio = productoDto.Precio,
+                Stock = productoDto.Stock,
+            };
+            _context.Productos.Add(producto);   
             _context.SaveChanges();
-            return producto;
+
+            return new ProductoResponseDto
+            {
+                Id = producto.Id,
+                Nombre = producto.Nombre,
+                Precio = producto.Precio,
+                Stock = producto.Stock,
+            };
         }
-        public Producto? ObtenerProductoPorId(int id)
+        public ProductoResponseDto? ObtenerProductoPorId(int id)
         {
-            return _context.Productos.Find(id);
+            var producto = _context.Productos.Find(id);
+
+            if (producto == null)
+            {
+                return null;
+            }
+
+            return new ProductoResponseDto
+            {
+                Id = producto.Id,
+                Nombre = producto.Nombre,
+                Precio = producto.Precio,
+                Stock = producto.Stock,
+            };
 
         }
-        public void ActualizarProducto(int id, Producto producto)
+        public void ActualizarProducto(int id, ProductoUpdateDto productoDto)
         {
             var productoExistente = _context.Productos.Find(id);
             if (productoExistente == null)
@@ -35,9 +70,9 @@ namespace ProyectoFullStack.API.Services
             {
                 return;
             }
-            productoExistente.Nombre = producto.Nombre;
-            productoExistente.Precio = producto.Precio;
-            productoExistente.Stock = producto.Stock;
+            productoExistente.Nombre = productoDto.Nombre;
+            productoExistente.Precio = productoDto.Precio;
+            productoExistente.Stock = productoDto.Stock;
 
             _context.SaveChanges();
         }
