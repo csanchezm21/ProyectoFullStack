@@ -27,6 +27,10 @@ namespace ProyectoFullStack.API.Controllers
         [HttpPost]
         public IActionResult CrearProducto([FromBody] ProductoCreateDto productoDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var nuevoProducto = _productoService.CrearProducto(productoDto);
 
             return CreatedAtAction(
