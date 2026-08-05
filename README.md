@@ -1,180 +1,232 @@
-# 🚀 Proyecto Full Stack | Gestión de Productos
+# 🚀 Proyecto Full Stack - ASP.NET Core + SQL Server + Angular
 
-## 📖 Descripción
+Proyecto desarrollado con el objetivo de construir una aplicación Full Stack utilizando buenas prácticas de desarrollo, arquitectura por capas y tecnologías ampliamente utilizadas en el entorno profesional.
 
-Proyecto Full Stack desarrollado con el objetivo de construir una aplicación web moderna siguiendo buenas prácticas de desarrollo Backend y Frontend.
-
-Actualmente se encuentra en desarrollo e implementa una API REST con ASP.NET Core, Entity Framework Core y SQL Server. En las siguientes etapas se incorporará Angular para el consumo de la API y autenticación mediante JWT.
+Actualmente el proyecto se encuentra en desarrollo, implementando progresivamente funcionalidades del backend antes de iniciar el frontend con Angular.
 
 ---
 
-# ✨ Objetivos
+## 🛠️ Tecnologías utilizadas
 
-- Desarrollar una API REST profesional.
-- Implementar arquitectura por capas.
-- Aplicar Inyección de Dependencias.
-- Utilizar Entity Framework Core como ORM.
-- Gestionar datos con SQL Server.
-- Construir un frontend en Angular.
-- Implementar autenticación con JWT.
-- Publicar el proyecto como parte de mi portafolio profesional.
-
----
-
-# 🛠 Tecnologías
-
-## Backend
-
-- ASP.NET Core 8 Web API
+### Backend
+- ASP.NET Core Web API (.NET 8)
 - C#
-- Entity Framework Core 8
-- Swagger / OpenAPI
+- Entity Framework Core
+- SQL Server
+- AutoMapper
 
-## Base de datos
+### Base de Datos
+- SQL Server
+- Entity Framework Core (Code First)
 
-- SQL Server Express
-- SQL Server Management Studio (SSMS)
+### Control de versiones
+- Git
+- GitHub
 
-## Frontend (Próximamente)
-
+### Frontend (Próximamente)
 - Angular
 - TypeScript
 - HTML5
 - CSS3
-
-## Herramientas
-
-- Visual Studio 2022
-- Visual Studio Code
-- Git
-- GitHub
+- Bootstrap
 
 ---
 
-# 🏗 Arquitectura
-
-El proyecto implementa una arquitectura por capas para mantener una correcta separación de responsabilidades.
+# 📂 Arquitectura del proyecto
 
 ```
-# 📂 Estructura del proyecto
-
-```
-
 ProyectoFullStack
-
-├── Backend
 │
+├── Backend
 │   └── ProyectoFullStack.API
 │
-│       ├── Controllers
-│       ├── Data
-│       ├── Interfaces
-│       ├── Models
-│       ├── Services
-│       ├── Program.cs
-│       └── appsettings.json
+├── Frontend
 │
 ├── BaseDatos
 │
-└── Frontend
-
+└── Documentacion
 ```
 
-
-# 🗄 Base de datos
-
-Motor utilizado:
-
-- SQL Server Express
-
-Base de datos:
+El backend está organizado siguiendo una arquitectura por capas para mantener una separación clara de responsabilidades.
 
 ```
-
-ProyectoFullStackDB
-
+Controllers
+│
+├── Services
+│
+├── Interfaces
+│
+├── DTOs
+│
+├── Mapping
+│
+├── Data
+│
+└── Models
 ```
-
-Tabla principal:
-
-```
-
-Productos
-
-```
-
-| Campo | Tipo |
-|--------|------|
-| Id | INT IDENTITY |
-| Nombre | NVARCHAR(100) |
-| Precio | DECIMAL(18,2) |
-| Stock | INT |
 
 ---
 
 # ✅ Funcionalidades implementadas
 
-- API REST con ASP.NET Core.
-- Arquitectura por capas.
-- Inyección de Dependencias.
-- Entity Framework Core.
-- Conexión con SQL Server.
-- Consulta de productos desde base de datos.
-- Documentación automática con Swagger.
+## Base del proyecto
+
+- ✔ Arquitectura por capas
+- ✔ Conexión con SQL Server
+- ✔ Entity Framework Core
+- ✔ Dependency Injection
+- ✔ Configuración de DbContext
+
+## CRUD de Productos
+
+- ✔ Obtener todos los productos
+- ✔ Obtener producto por Id
+- ✔ Crear productos
+- ✔ Actualizar productos
+- ✔ Eliminar productos
+
+## DTOs
+
+Se implementó el patrón **DTO (Data Transfer Object)** para evitar exponer directamente las entidades de la base de datos.
+
+DTOs implementados:
+
+- ProductoCreateDto
+- ProductoUpdateDto
+- ProductoResponseDto
 
 ---
-# ▶ Ejecución del proyecto
 
-Clonar el repositorio
+## AutoMapper
 
-```bash
-git clone https://github.com/csanchezm21/ProyectoFullStack.git
+Se implementó AutoMapper para automatizar la conversión entre entidades y DTOs, eliminando el mapeo manual y reduciendo código repetitivo.
+
+Incluye:
+
+- MappingProfile
+- Registro en Program.cs
+- Inyección mediante IMapper
+- Conversión automática entre DTOs y entidades
+
+---
+
+## Validaciones
+
+Se implementaron validaciones utilizando **Data Annotations**.
+
+Actualmente se validan:
+
+- Nombre obligatorio
+- Longitud máxima del nombre
+- Precio mayor que cero
+- Stock no negativo
+
+También se personalizó la respuesta de error de la API para entregar mensajes más claros y fáciles de consumir desde el frontend.
+
+Ejemplo:
+
+```json
+{
+  "mensaje": "Los datos enviados no son válidos.",
+  "errores": {
+    "Precio": [
+      "El precio debe ser mayor que cero."
+    ]
+  }
+}
 ```
 
-Abrir la solución con Visual Studio 2022.
+---
 
-Configurar la cadena de conexión en:
+# 📷 Pruebas
 
-```
+Todas las operaciones del CRUD han sido probadas mediante **Swagger**.
 
-appsettings.json
+Pruebas realizadas:
 
-```
+- GET
+- GET por Id
+- POST
+- PUT
+- DELETE
+- Validaciones
+- Respuestas personalizadas de error
 
-Ejecutar la aplicación.
+---
 
-Swagger estará disponible en:
+# 🚧 Próximas funcionalidades
 
-```
+Backend
 
-https://localhost:7281/swagger
+- Manejo global de excepciones
+- Logging
+- Respuestas consistentes
+- JWT Authentication
+- Registro de usuarios
+- Inicio de sesión
+- Roles y autorización
 
-```
+Frontend
+
+- Angular
+- Consumo de la API
+- CRUD completo
+- Login
+- Diseño responsivo
+
+Despliegue
+
+- Publicación del Backend
+- Publicación del Frontend
+- Base de datos en la nube
+
+---
+
+# 📈 Estado del proyecto
+
+| Característica | Estado |
+|----------------|--------|
+| Arquitectura por capas | ✅ |
+| SQL Server | ✅ |
+| Entity Framework Core | ✅ |
+| Dependency Injection | ✅ |
+| CRUD | ✅ |
+| DTOs | ✅ |
+| AutoMapper | ✅ |
+| Validaciones | ✅ |
+| Respuestas personalizadas | ✅ |
+| Manejo global de excepciones | ⏳ |
+| JWT | ⏳ |
+| Angular | ⏳ |
+
+**Progreso estimado del Backend: 85%**
+
+---
+
+# 📚 Objetivos del proyecto
+
+Este proyecto tiene como finalidad fortalecer conocimientos en:
+
+- ASP.NET Core Web API
+- Entity Framework Core
+- SQL Server
+- Arquitectura por capas
+- DTOs
+- AutoMapper
+- Validaciones
+- JWT Authentication
+- Angular
+- Buenas prácticas de desarrollo
 
 ---
 
 # 👨‍💻 Autor
 
-## César Sánchez
+**César Sánchez**
 
-Estudiante de Ingeniería de Software y desarrollador Backend en formación.
-
-### Tecnologías
-
-- ASP.NET Core
-- C#
-- SQL Server
-- Entity Framework Core
-- Angular
-- Git
-- GitHub
+- Estudiante de Ingeniería de Software
+- Analista de Soporte IT
+- Aspirante a Desarrollador Full Stack
 
 GitHub:
-
 https://github.com/csanchezm21
-
----
-
-# 📌 Estado del proyecto
-
-🟢 En desarrollo
