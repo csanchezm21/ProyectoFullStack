@@ -3,16 +3,19 @@ using ProyectoFullStack.API.Data;
 using ProyectoFullStack.API.DTOs;
 using ProyectoFullStack.API.Interfaces;
 using ProyectoFullStack.API.Models;
+using AutoMapper;
 
 
 namespace ProyectoFullStack.API.Services
 {
     public class ProductoService : IProductoService
     {
-        private readonly ProyectoFullStack.API.Data.ApplicationDbContext _context;
-        public ProductoService(ProyectoFullStack.API.Data.ApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+        private readonly IMapper _mapper;
+        public ProductoService(ApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
         public IEnumerable<ProductoResponseDto> ObtenerProductos()
         {
@@ -27,22 +30,12 @@ namespace ProyectoFullStack.API.Services
         }
         public ProductoResponseDto CrearProducto(ProductoCreateDto productoDto)
         {
-            var producto = new Producto
-            {
-                Nombre = productoDto.Nombre,
-                Precio = productoDto.Precio,
-                Stock = productoDto.Stock,
-            };
+            var producto = _mapper.Map<Producto>(productoDto);
+
             _context.Productos.Add(producto);   
             _context.SaveChanges();
 
-            return new ProductoResponseDto
-            {
-                Id = producto.Id,
-                Nombre = producto.Nombre,
-                Precio = producto.Precio,
-                Stock = producto.Stock,
-            };
+            return _mapper.Map<ProductoResponseDto>(producto);
         }
         public ProductoResponseDto? ObtenerProductoPorId(int id)
         {
@@ -53,13 +46,7 @@ namespace ProyectoFullStack.API.Services
                 return null;
             }
 
-            return new ProductoResponseDto
-            {
-                Id = producto.Id,
-                Nombre = producto.Nombre,
-                Precio = producto.Precio,
-                Stock = producto.Stock,
-            };
+            return _mapper.Map<ProductoResponseDto>(producto);
 
         }
         public void ActualizarProducto(int id, ProductoUpdateDto productoDto)
@@ -70,9 +57,7 @@ namespace ProyectoFullStack.API.Services
             {
                 return;
             }
-            productoExistente.Nombre = productoDto.Nombre;
-            productoExistente.Precio = productoDto.Precio;
-            productoExistente.Stock = productoDto.Stock;
+            _mapper.Map(productoDto, productoExistente);
 
             _context.SaveChanges();
         }
