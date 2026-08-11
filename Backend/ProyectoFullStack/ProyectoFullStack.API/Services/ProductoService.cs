@@ -66,7 +66,7 @@ namespace ProyectoFullStack.API.Services
             var producto = _context.Productos.Find(id);
             if (producto == null)
             {
-                throw new Exception("Producto no encontrado.");
+                return;
             }
             
             _context.Productos.Remove(producto);

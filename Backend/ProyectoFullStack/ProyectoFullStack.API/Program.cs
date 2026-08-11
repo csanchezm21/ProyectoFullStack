@@ -1,9 +1,12 @@
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ProyectoFullStack.API.Data;
 using ProyectoFullStack.API.Interfaces;
-using ProyectoFullStack.API.Services;
 using ProyectoFullStack.API.Mappings;
+using ProyectoFullStack.API.Middleware;
+using ProyectoFullStack.API.Services;
+using ProyectoFullStack.API.Middleware;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,14 +44,13 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

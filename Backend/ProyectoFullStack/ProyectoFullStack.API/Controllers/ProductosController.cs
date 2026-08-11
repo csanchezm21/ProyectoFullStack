@@ -75,6 +75,7 @@ namespace ProyectoFullStack.API.Controllers
             _productoService.EliminarProducto(id);
             return NoContent();
         }
+        
     }   
 }
 
