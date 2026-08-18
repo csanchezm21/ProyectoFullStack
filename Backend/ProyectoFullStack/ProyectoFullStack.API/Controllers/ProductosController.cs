@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoFullStack.API.Models;
 using ProyectoFullStack.API.Interfaces;
+using ProyectoFullStack.API.Services;
 
 namespace ProyectoFullStack.API.Controllers
 {
@@ -11,15 +12,18 @@ namespace ProyectoFullStack.API.Controllers
     public class ProductosController : ControllerBase
     {
         private readonly IProductoService _productoService;
+        private readonly ILogger<ProductosController> _logger;
 
-        public ProductosController(IProductoService productoService)
+        public ProductosController(IProductoService productoService, ILogger <ProductosController> logger)
         {
             _productoService = productoService;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult ObtenerProductos()
         {
+            _logger.LogInformation("Se solicitó la lista de productos.");
             var productos = _productoService.ObtenerProductos();
             return Ok(productos);
         }
@@ -58,6 +62,7 @@ namespace ProyectoFullStack.API.Controllers
             var productoExistente = _productoService.ObtenerProductoPorId(id);
             if (productoExistente == null)
             {
+                _logger.LogWarning("Producto con ID {Id} no encontrado.", id);
                 return NotFound();
             }
             _productoService.ActualizarProducto(id, productoDto);
