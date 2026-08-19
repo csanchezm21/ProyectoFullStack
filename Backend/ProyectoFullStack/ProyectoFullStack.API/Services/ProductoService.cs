@@ -12,13 +12,17 @@ namespace ProyectoFullStack.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
-        public ProductoService(ApplicationDbContext context, IMapper mapper)
+        private readonly ILogger<ProductoService> _logger;
+        public ProductoService(ApplicationDbContext context, IMapper mapper, ILogger<ProductoService> logger)
         {
             _context = context;
             _mapper = mapper;
+            _logger = logger;
         }
         public IEnumerable<ProductoResponseDto> ObtenerProductos()
         {
+            _logger.LogInformation("Consultando todos los productos.");
+
             return _context.Productos.Select(p => new ProductoResponseDto
             {
                 Id = p.Id,
@@ -35,6 +39,10 @@ namespace ProyectoFullStack.API.Services
             _context.Productos.Add(producto);   
             _context.SaveChanges();
 
+            _logger.LogInformation("Producto creado correctamente. ID: {Id}, Nombre: {Nombre}.",
+                producto.Id,
+                producto.Nombre);
+
             return _mapper.Map<ProductoResponseDto>(producto);
         }
         public ProductoResponseDto? ObtenerProductoPorId(int id)
@@ -43,6 +51,9 @@ namespace ProyectoFullStack.API.Services
 
             if (producto == null)
             {
+                _logger.LogWarning(
+                    "No se encontró el producto con ID {Id}", id);
+
                 return null;
             }
 
@@ -55,11 +66,15 @@ namespace ProyectoFullStack.API.Services
             if (productoExistente == null)
 
             {
+                _logger.LogWarning("No se pudo actualizar el producto con ID {Id} porque no existe.",
+                    id);
                 return;
             }
             _mapper.Map(productoDto, productoExistente);
 
             _context.SaveChanges();
+            _logger.LogInformation(    "Producto actualizado correctamente. ID: {Id}.",
+    id);
         }
         public void EliminarProducto (int id)
         {
