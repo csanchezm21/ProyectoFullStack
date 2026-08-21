@@ -34,16 +34,25 @@ namespace ProyectoFullStack.API.Services
         }
         public ProductoResponseDto CrearProducto(ProductoCreateDto productoDto)
         {
-            var producto = _mapper.Map<Producto>(productoDto);
+            try
+            {
 
-            _context.Productos.Add(producto);   
-            _context.SaveChanges();
+                var producto = _mapper.Map<Producto>(productoDto);
 
-            _logger.LogInformation("Producto creado correctamente. ID: {Id}, Nombre: {Nombre}.",
-                producto.Id,
-                producto.Nombre);
+                _context.Productos.Add(producto);
+                _context.SaveChanges();
 
-            return _mapper.Map<ProductoResponseDto>(producto);
+                _logger.LogInformation("Producto creado correctamente. ID: {Id}, Nombre: {Nombre}.",
+                    producto.Id,
+                    producto.Nombre);
+
+                return _mapper.Map<ProductoResponseDto>(producto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ocurrio un error al crear el producto.");
+                throw;
+            }
         }
         public ProductoResponseDto? ObtenerProductoPorId(int id)
         {
@@ -62,30 +71,53 @@ namespace ProyectoFullStack.API.Services
         }
         public void ActualizarProducto(int id, ProductoUpdateDto productoDto)
         {
-            var productoExistente = _context.Productos.Find(id);
-            if (productoExistente == null)
-
+            try
             {
-                _logger.LogWarning("No se pudo actualizar el producto con ID {Id} porque no existe.",
-                    id);
-                return;
-            }
-            _mapper.Map(productoDto, productoExistente);
 
-            _context.SaveChanges();
-            _logger.LogInformation(    "Producto actualizado correctamente. ID: {Id}.",
-    id);
+                var productoExistente = _context.Productos.Find(id);
+                if (productoExistente == null)
+
+                {
+                    _logger.LogWarning("No se pudo actualizar el producto con ID {Id} porque no existe.",
+                        id);
+                    return;
+                }
+                _mapper.Map(productoDto, productoExistente);
+
+                _context.SaveChanges();
+                _logger.LogInformation("Producto actualizado correctamente. ID: {Id}.", id);
+            }
+            catch (Exception ex) 
+            {
+                    _logger.LogError(ex, "Ocurrió un error al actualizar el producto con ID {Id}.", id);
+                    throw;
+            }
         }
         public void EliminarProducto (int id)
         {
-            var producto = _context.Productos.Find(id);
-            if (producto == null)
+            try
             {
-                return;
+
+
+                var producto = _context.Productos.Find(id);
+                if (producto == null)
+                {
+                    _logger.LogWarning(
+                    "No se pudo eliminar el producto con ID {Id} porque no existe.",
+                    id);
+                    return;
+                }
+
+                _context.Productos.Remove(producto);
+                _context.SaveChanges();
+
+                _logger.LogInformation("Porducto eliminado correctamente. ID:  {Id}, Nombre {Nombre}.", id, producto.Nombre);
             }
-            
-            _context.Productos.Remove(producto);
-            _context.SaveChanges();
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Ocurrio un error al eliminar el producto con ID {Id}.", id);
+                throw;
+            }
         }
     }
 }
