@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProyectoFullStack.API.Data;
+using ProyectoFullStack.API.DTOs;
 using ProyectoFullStack.API.Interfaces;
 using ProyectoFullStack.API.Mappings;
 using ProyectoFullStack.API.Middleware;
 using ProyectoFullStack.API.Services;
-using ProyectoFullStack.API.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,10 +27,11 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
                 e => e.Value.Errors.Select(x => x.ErrorMessage).ToArray()
             );
 
-        var respuesta = new
+        var respuesta = new ApiResponseDto<Dictionary<string, string[]>>
         {
-            Mensaje = "Los datos enviados no son válidos.",
-            Errores = errores
+            Success = false,
+            Message = "Los datps enviados no son validos. ",
+            Data = errores
         };
 
         return new BadRequestObjectResult(respuesta);

@@ -24,8 +24,15 @@ namespace ProyectoFullStack.API.Controllers
         public IActionResult ObtenerProductos()
         {
             _logger.LogInformation("Se solicitó la lista de productos.");
+
             var productos = _productoService.ObtenerProductos();
-            return Ok(productos);
+            var respuesta = new ApiResponseDto<IEnumerable<ProductoResponseDto>>
+            {
+                Success = true,
+                Message = "Porductos consultados correctamente.",
+                Data = productos
+            };
+            return Ok(respuesta);
         }
 
         [HttpPost]
@@ -37,23 +44,45 @@ namespace ProyectoFullStack.API.Controllers
             }
             var nuevoProducto = _productoService.CrearProducto(productoDto);
 
+            var respuesta = new ApiResponseDto<ProductoResponseDto>
+            {
+                Success = true,
+                Message = "Porducto encontrado correctametne. ",
+                Data = nuevoProducto
+            };
+
             return CreatedAtAction(
                 nameof(ObtenerProductoPorId),
                 new
                 {
                     id = nuevoProducto.Id
                 },
-                nuevoProducto);
+                respuesta);
         }
         [HttpGet("{id}")]
         public IActionResult ObtenerProductoPorId(int id)
         {
+            
             var producto = _productoService.ObtenerProductoPorId(id);
             if (producto == null)
             {
-                return NotFound();
+                var respuesta = new ApiResponseDto<object>
+                {
+                    Success = false,
+                    Message = " Porducto no encontrado. ",
+                    Data = null
+                };
+                return Ok(respuesta);
             }
-            return Ok(producto);
+
+            var respuestaProducto = new ApiResponseDto<ProductoResponseDto>
+            {
+                Success = true,
+                Message = "Producto encontrado correctamente. ",
+                Data = producto
+            };
+
+            return Ok(respuestaProducto);
         }
 
         [HttpPut("{id}")]
@@ -63,24 +92,59 @@ namespace ProyectoFullStack.API.Controllers
             if (productoExistente == null)
             {
                 _logger.LogWarning("Producto con ID {Id} no encontrado.", id);
-                return NotFound();
+               
+                var respuestaError = new ApiResponseDto<object>
+                {
+                    Success = false,
+                    Message = "Producto no encontrado.",
+                    Data = null
+                };
+                return NotFound(respuestaError);
             }
             _productoService.ActualizarProducto(id, productoDto);
-            return NoContent();
+
+            var productoActualizado = _productoService.ObtenerProductoPorId(id);
+
+            var respuesta = new ApiResponseDto<ProductoResponseDto>
+            {
+                Success = true,
+                Message = "Porducto actualizado correctamente. ",
+                Data = productoActualizado
+            };
+            return Ok(respuesta);
+
         }
         [HttpDelete("{id}")]
         public IActionResult EliminarProducto(int id)
         {
+            
+
             var producto = _productoService.ObtenerProductoPorId(id);
 
-            if (producto ==null)
+            if (producto == null)
             {
-                return NotFound("Producto no encontrado. ");
+                var respuestaError = new ApiResponseDto<object>
+                {
+                    Success = false,
+                    Message = "Producto no encontrado.",
+                    Data = null
+                };
+
+                return NotFound(respuestaError);
             }
+
             _productoService.EliminarProducto(id);
-            return NoContent();
+
+            var respuesta = new ApiResponseDto<object>
+            {
+                Success = true,
+                Message = "Producto eliminado correctamente.",
+                Data = null
+            };
+
+            return Ok(respuesta);
         }
-        
+
     }   
 }
 

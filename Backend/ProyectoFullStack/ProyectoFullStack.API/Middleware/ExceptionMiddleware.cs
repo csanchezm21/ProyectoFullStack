@@ -33,10 +33,11 @@ namespace ProyectoFullStack.API.Middleware
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             context.Response.ContentType= "application/json";
 
-            var response = new ErrorResponseDto
+            var response = new ApiResponseDto<object>
             {
-                StatusCode = context.Response.StatusCode,
-                Message = "Ocurrio un error interno en el servidor."
+                Success = false,
+                Message = "Ocurrio un error interno en el servidor.",
+                Data = null
             };
 
             var jsonResponse = JsonSerializer.Serialize(response);
