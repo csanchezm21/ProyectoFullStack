@@ -31,5 +31,26 @@ namespace ProyectoFullStack.API.Services
 
             return _mapper.Map<UsuarioResponseDto>(usuario);
         }
+        public UsuarioResponseDto? Login(UsuarioLoginDto usuarioDto)
+        {
+            var usuario = _context.Usuarios
+                .FirstOrDefault(u => u.Email == usuarioDto.Email);
+            if (usuario == null)
+            {
+                return null;
+            }
+
+            bool passwordCorrecta = BCrypt.Net.BCrypt.Verify(
+                usuarioDto.Password,
+                usuario.PasswordHash
+            );
+            if (!passwordCorrecta)
+            {
+
+                return null;
+
+            }
+            return _mapper.Map<UsuarioResponseDto>(usuario);
+        }
     }
 }

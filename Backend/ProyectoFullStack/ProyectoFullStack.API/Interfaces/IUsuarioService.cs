@@ -5,5 +5,6 @@ namespace ProyectoFullStack.API.Interfaces
     public interface IUsuarioService
     {
         UsuarioResponseDto CrearUsuario (UsuarioCreateDto usuarioDto);
+        UsuarioResponseDto? Login(UsuarioLoginDto usuarioDto);
     }
 }
