@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IProductoService, ProductoService>();
+builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddControllers();
 builder.Services.Configure<ApiBehaviorOptions>(options =>
 {
@@ -30,7 +31,7 @@ builder.Services.Configure<ApiBehaviorOptions>(options =>
         var respuesta = new ApiResponseDto<Dictionary<string, string[]>>
         {
             Success = false,
-            Message = "Los datps enviados no son validos. ",
+            Message = "Los datos enviados no son validos. ",
             Data = errores
         };
 

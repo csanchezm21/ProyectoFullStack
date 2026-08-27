@@ -11,5 +11,12 @@ namespace ProyectoFullStack.API.Data
         }
 
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<Usuario> Usuarios { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Producto>()
+                .Property(p => p.Precio)
+                .HasPrecision(18, 2);
+        }
     }
 }

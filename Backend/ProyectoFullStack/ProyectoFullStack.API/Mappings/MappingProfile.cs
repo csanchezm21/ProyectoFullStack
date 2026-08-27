@@ -14,6 +14,9 @@ namespace ProyectoFullStack.API.Mappings
             CreateMap <ProductoCreateDto, Producto>();
 
             CreateMap <ProductoUpdateDto, Producto>();
+
+            CreateMap <UsuarioCreateDto, Usuario>();
+            CreateMap <Usuario, UsuarioResponseDto>();
         }
     }
 }
