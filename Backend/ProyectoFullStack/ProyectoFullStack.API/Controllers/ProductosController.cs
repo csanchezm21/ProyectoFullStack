@@ -29,7 +29,7 @@ namespace ProyectoFullStack.API.Controllers
             var respuesta = new ApiResponseDto<IEnumerable<ProductoResponseDto>>
             {
                 Success = true,
-                Message = "Porductos consultados correctamente.",
+                Message = "Productos consultados correctamente.",
                 Data = productos
             };
             return Ok(respuesta);
@@ -40,14 +40,20 @@ namespace ProyectoFullStack.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var respuestaError = new ApiResponseDto<object> 
+                { 
+                    Success = false, 
+                    Message = "Los datos enviados no son válidos.", 
+                    Data = ModelState };
+
+                return BadRequest(respuestaError);
             }
             var nuevoProducto = _productoService.CrearProducto(productoDto);
 
             var respuesta = new ApiResponseDto<ProductoResponseDto>
             {
                 Success = true,
-                Message = "Porducto encontrado correctametne. ",
+                Message = "Producto creado correctamente. ",
                 Data = nuevoProducto
             };
 
@@ -69,16 +75,16 @@ namespace ProyectoFullStack.API.Controllers
                 var respuesta = new ApiResponseDto<object>
                 {
                     Success = false,
-                    Message = " Porducto no encontrado. ",
+                    Message = " Producto no encontrado. ",
                     Data = null
                 };
-                return Ok(respuesta);
+                return NotFound(respuesta);
             }
 
             var respuestaProducto = new ApiResponseDto<ProductoResponseDto>
             {
                 Success = true,
-                Message = "Producto encontrado correctamente. ",
+                Message = "Producto consultado correctamente.",
                 Data = producto
             };
 
@@ -108,7 +114,7 @@ namespace ProyectoFullStack.API.Controllers
             var respuesta = new ApiResponseDto<ProductoResponseDto>
             {
                 Success = true,
-                Message = "Porducto actualizado correctamente. ",
+                Message = "Producto actualizado correctamente. ",
                 Data = productoActualizado
             };
             return Ok(respuesta);
