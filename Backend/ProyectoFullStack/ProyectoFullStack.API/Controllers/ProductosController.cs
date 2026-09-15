@@ -1,6 +1,7 @@
 ﻿using ProyectoFullStack.API.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using ProyectoFullStack.API.Models;
 using ProyectoFullStack.API.Interfaces;
 using ProyectoFullStack.API.Services;
@@ -35,6 +36,7 @@ namespace ProyectoFullStack.API.Controllers
             return Ok(respuesta);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult CrearProducto([FromBody] ProductoCreateDto productoDto)
         {

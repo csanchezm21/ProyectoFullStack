@@ -11,11 +11,16 @@ namespace ProyectoFullStack.API.Services
     {
         private readonly ApplicationDbContext _context;
         private readonly IMapper _mapper;
+        private readonly IJwtService _jwtService;
 
-        public UsuarioService(ApplicationDbContext context, IMapper mapper)
+        public UsuarioService(
+            ApplicationDbContext context,
+            IMapper mapper,
+            IJwtService jwtService)
         {
             _context = context;
             _mapper = mapper;
+            _jwtService = jwtService;
         }
 
         public UsuarioResponseDto CrearUsuario(UsuarioCreateDto usuarioDto)
@@ -31,10 +36,12 @@ namespace ProyectoFullStack.API.Services
 
             return _mapper.Map<UsuarioResponseDto>(usuario);
         }
-        public UsuarioResponseDto? Login(UsuarioLoginDto usuarioDto)
+
+        public LoginResponseDto? Login(UsuarioLoginDto usuarioDto)
         {
             var usuario = _context.Usuarios
                 .FirstOrDefault(u => u.Email == usuarioDto.Email);
+
             if (usuario == null)
             {
                 return null;
@@ -44,13 +51,21 @@ namespace ProyectoFullStack.API.Services
                 usuarioDto.Password,
                 usuario.PasswordHash
             );
+
             if (!passwordCorrecta)
             {
-
                 return null;
-
             }
-            return _mapper.Map<UsuarioResponseDto>(usuario);
+
+            var token = _jwtService.GenerarToken(usuario);
+
+            var usuarioResponse = _mapper.Map<UsuarioResponseDto>(usuario);
+
+            return new LoginResponseDto
+            {
+                Token = token,
+                Usuario = usuarioResponse
+            };
         }
     }
 }
