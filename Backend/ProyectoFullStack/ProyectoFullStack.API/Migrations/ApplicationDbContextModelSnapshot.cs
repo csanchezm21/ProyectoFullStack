@@ -55,7 +55,7 @@ namespace ProyectoFullStack.API.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -70,6 +70,9 @@ namespace ProyectoFullStack.API.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.ToTable("Usuarios");
                 });

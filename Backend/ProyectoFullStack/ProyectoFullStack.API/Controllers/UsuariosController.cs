@@ -2,6 +2,7 @@
 using ProyectoFullStack.API.DTOs;
 using ProyectoFullStack.API.Interfaces;
 
+
 namespace ProyectoFullStack.API.Controllers
 {
     [Route("api/[controller]")]
@@ -20,13 +21,37 @@ namespace ProyectoFullStack.API.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new ApiResponseDto<object>
+                {
+                    Success = false,
+                    Message = "Los datos enviados no son válidos.",
+                    Data = ModelState
+                });
             }
 
-            var nuevoUsuario = _usuarioService.CrearUsuario(usuarioDto);
+            var resultado = _usuarioService.CrearUsuario(usuarioDto);
 
-            return Ok(nuevoUsuario);
+            if (resultado.EmailExiste)
+            {
+                return Conflict(new ApiResponseDto<object>
+                {
+                    Success = false,
+                    Message = "Ya existe un usuario registrado con ese correo electrónico.",
+                    Data = null
+                });
+            }
+
+            return CreatedAtAction(
+                nameof(CrearUsuario),
+                new ApiResponseDto<UsuarioResponseDto>
+                {
+                    Success = true,
+                    Message = "Usuario registrado correctamente.",
+                    Data = resultado.Usuario
+                }
+            );
         }
+
 
         [HttpPost("login")]
         public IActionResult Login([FromBody] UsuarioLoginDto usuarioDto)

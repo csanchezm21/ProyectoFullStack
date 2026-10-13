@@ -23,19 +23,43 @@ namespace ProyectoFullStack.API.Services
             _jwtService = jwtService;
         }
 
-        public UsuarioResponseDto CrearUsuario(UsuarioCreateDto usuarioDto)
+
+        public (UsuarioResponseDto? Usuario, bool EmailExiste) CrearUsuario(
+            UsuarioCreateDto usuarioDto)
         {
+            var email = usuarioDto.Email.Trim();
+
+            // Comprobar si el correo ya está registrado.
+            bool emailExiste = _context.Usuarios
+                .Any(u => u.Email == email);
+
+            if (emailExiste)
+            {
+                return (null, true);
+            }
+
+            // Crear el usuario con los datos recibidos.
             var usuario = _mapper.Map<Usuario>(usuarioDto);
 
-            usuario.PasswordHash = BCrypt.Net.BCrypt.HashPassword(usuarioDto.Password);
+            usuario.Nombre = usuario.Nombre.Trim();
+            usuario.Email = email;
 
+            // Guardar la contraseña como hash, nunca como texto normal.
+            usuario.PasswordHash = BCrypt.Net.BCrypt.HashPassword(
+                usuarioDto.Password
+            );
+
+            // El rol lo asigna el servidor.
             usuario.Rol = "Usuario";
 
             _context.Usuarios.Add(usuario);
             _context.SaveChanges();
 
-            return _mapper.Map<UsuarioResponseDto>(usuario);
+            var usuarioResponse = _mapper.Map<UsuarioResponseDto>(usuario);
+
+            return (usuarioResponse, false);
         }
+
 
         public LoginResponseDto? Login(UsuarioLoginDto usuarioDto)
         {
