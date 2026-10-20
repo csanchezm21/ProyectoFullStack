@@ -53,32 +53,40 @@ namespace ProyectoFullStack.API.Controllers
         }
 
 
+
         [HttpPost("login")]
         public IActionResult Login([FromBody] UsuarioLoginDto usuarioDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return BadRequest(new ApiResponseDto<object>
+                {
+                    Success = false,
+                    Message = "Los datos enviados no son válidos.",
+                    Data = ModelState
+                });
             }
 
             var usuario = _usuarioService.Login(usuarioDto);
 
             if (usuario == null)
             {
-                return Unauthorized(new
+                return Unauthorized(new ApiResponseDto<object>
                 {
                     Success = false,
                     Message = "Email o contraseña incorrectos.",
-                    Data = (object?)null
+                    Data = null
                 });
             }
 
-            return Ok(new
+            return Ok(new ApiResponseDto<LoginResponseDto>
             {
                 Success = true,
                 Message = "Inicio de sesión correcto.",
                 Data = usuario
             });
         }
+
     }
+
 }

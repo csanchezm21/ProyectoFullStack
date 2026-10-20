@@ -63,8 +63,10 @@ namespace ProyectoFullStack.API.Services
 
         public LoginResponseDto? Login(UsuarioLoginDto usuarioDto)
         {
+            var email = usuarioDto.Email.Trim();
+
             var usuario = _context.Usuarios
-                .FirstOrDefault(u => u.Email == usuarioDto.Email);
+                .FirstOrDefault(u => u.Email == email);
 
             if (usuario == null)
             {
