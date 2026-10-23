@@ -1,10 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace ProyectoFullStack.API.DTOs
 {
     public class UsuarioCreateDto
     {
         [Required(ErrorMessage = "El nombre es obligatorio.")]
+        [StringLength(100, ErrorMessage = "El nombre no puede superar los 100 caracteres.")]
+        [RegularExpression(@".*\S.*", ErrorMessage = "El nombre no puede contener solo espacios.")]
         public string Nombre { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
@@ -15,6 +18,6 @@ namespace ProyectoFullStack.API.DTOs
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [MinLength(6, ErrorMessage = "La contraseña debe tener mínimo 6 caracteres.")]
         public string Password { get; set; } = string.Empty;
-
     }
 }
+

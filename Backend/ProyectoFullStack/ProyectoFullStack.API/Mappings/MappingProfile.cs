@@ -15,7 +15,10 @@ namespace ProyectoFullStack.API.Mappings
 
             CreateMap <ProductoUpdateDto, Producto>();
 
-            CreateMap <UsuarioCreateDto, Usuario>();
+            CreateMap<UsuarioCreateDto, Usuario>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore())
+                .ForMember(dest => dest.Rol, opt => opt.Ignore())
+                .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
             CreateMap <Usuario, UsuarioResponseDto>();
         }
     }

@@ -36,7 +36,7 @@ namespace ProyectoFullStack.API.Controllers
             return Ok(respuesta);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Administrador")]
         [HttpPost]
         public IActionResult CrearProducto([FromBody] ProductoCreateDto productoDto)
         {
@@ -67,6 +67,8 @@ namespace ProyectoFullStack.API.Controllers
                 },
                 respuesta);
         }
+
+        
         [HttpGet("{id}")]
         public IActionResult ObtenerProductoPorId(int id)
         {
@@ -93,6 +95,7 @@ namespace ProyectoFullStack.API.Controllers
             return Ok(respuestaProducto);
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPut("{id}")]
         public IActionResult ActualizarProducto(int id, [FromBody] ProductoUpdateDto productoDto)
         {
@@ -122,6 +125,8 @@ namespace ProyectoFullStack.API.Controllers
             return Ok(respuesta);
 
         }
+
+        [Authorize(Roles = "Administrador")]
         [HttpDelete("{id}")]
         public IActionResult EliminarProducto(int id)
         {
