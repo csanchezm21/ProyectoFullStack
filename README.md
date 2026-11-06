@@ -1,116 +1,74 @@
-# 🚀 Proyecto Full Stack — ASP.NET Core Web API + SQL Server + Angular
+# 🚀 ProyectoFullStack
 
-Proyecto personal de desarrollo Full Stack enfocado en la construcción de una aplicación web con **C#, ASP.NET Core Web API, SQL Server y Angular**.
+Aplicación web Full Stack desarrollada con **ASP.NET Core Web API (.NET 8), C#, SQL Server y Angular**. El proyecto busca implementar un sistema de gestión de usuarios y productos, aplicando buenas prácticas de programación, arquitectura por capas, autenticación y autorización.
 
-El objetivo es aplicar buenas prácticas de desarrollo, arquitectura por capas, persistencia de datos, autenticación y seguridad, construyendo progresivamente un proyecto para mi portafolio profesional como desarrollador de software.
+Actualmente se encuentra en desarrollo y evolución continua como proyecto de aprendizaje y portafolio profesional.
 
-**Estado actual:** Backend en desarrollo, con CRUD de productos, registro de usuarios y autenticación JWT implementados. La integración con Angular está pendiente.
+## 🎯 Objetivo del proyecto
 
----
+Construir una aplicación web que permita gestionar usuarios y productos mediante una arquitectura donde Angular se comunica con un Backend desarrollado en .NET, el cual administra la información almacenada en SQL Server.
 
-## 📌 Tabla de contenido
-
-- [Tecnologías](#-tecnologías)
-- [Funcionalidades implementadas](#-funcionalidades-implementadas)
-- [Arquitectura](#-arquitectura)
-- [Base de datos](#-base-de-datos)
-- [Requisitos previos](#-requisitos-previos)
-- [Instalación y ejecución](#-instalación-y-ejecución)
-- [Pruebas de la API](#-pruebas-de-la-api)
-- [Próximas mejoras](#-próximas-mejoras)
-- [Autor](#-autor)
-
----
-
-## 🛠️ Tecnologías
+## 🛠️ Tecnologías utilizadas
 
 ### Backend
-
 - C#
 - ASP.NET Core Web API (.NET 8)
 - Entity Framework Core
 - AutoMapper
-- BCrypt para el hash de contraseñas
-- JWT Bearer Authentication
-- Data Annotations para validaciones
-- ILogger para registro de eventos
-- Middleware para manejo global de excepciones
+- JWT (JSON Web Token)
+- BCrypt para protección de contraseñas
+- Swagger / OpenAPI
 
 ### Base de datos
-
 - Microsoft SQL Server
 - SQL Server Management Studio (SSMS)
 - Entity Framework Core Code First
-- Migraciones de base de datos
-- Índices únicos para restricciones de integridad
+- Migraciones
 
-### Herramientas
-
-- Visual Studio 2022
-- Swagger / OpenAPI
-- Git
-- GitHub
-- Visual Studio Code
-
-### Frontend — planificado
-
+### Frontend
 - Angular
 - TypeScript
 - HTML5
 - CSS3
-- Bootstrap
+- RxJS
+- HttpClient
 
----
+### Herramientas
+- Visual Studio 2022
+- Visual Studio Code
+- Git
+- GitHub
+- Node.js y npm
 
 ## ✅ Funcionalidades implementadas
 
-### 📦 Gestión de productos
+### Backend
+- [x] Configuración de ASP.NET Core Web API.
+- [x] Conexión con SQL Server.
+- [x] Arquitectura organizada por capas.
+- [x] CRUD de productos.
+- [x] Uso de DTOs para transferir información.
+- [x] Validaciones de datos.
+- [x] Manejo centralizado de excepciones.
+- [x] Registro de usuarios.
+- [x] Validación de correos electrónicos únicos.
+- [x] Inicio de sesión.
+- [x] Autenticación mediante JWT.
+- [x] Protección de contraseñas con BCrypt.
+- [x] Autorización mediante roles de Usuario y Administrador.
 
-- Consultar todos los productos.
-- Consultar un producto por su identificador.
-- Crear productos.
-- Actualizar productos.
-- Eliminar productos.
-- Validar los datos recibidos mediante DTOs.
-- Utilizar AutoMapper para transformar objetos.
-- Manejar errores y registrar eventos mediante logging.
-- Mantener un formato consistente en las respuestas de la API.
+### Frontend
+- [x] Configuración inicial de Angular.
+- [x] Pantalla de inicio.
+- [x] Pantalla de inicio de sesión.
+- [x] Pantalla de registro.
+- [x] Configuración de rutas.
+- [x] Configuración de HttpClient.
+- [x] Servicio para consumir el Backend.
+- [x] Consulta de productos desde la API.
+- [x] Visualización de productos en tarjetas.
 
-### 👤 Registro de usuarios
-
-- Registrar usuarios mediante un endpoint de la API.
-- Validar nombre, correo electrónico y contraseña.
-- Comprobar si el correo ya está registrado.
-- Almacenar las contraseñas utilizando BCrypt, sin guardarlas en texto plano.
-- Asignar el rol inicial `Usuario`.
-- Devolver respuestas HTTP apropiadas para registros exitosos, datos inválidos y correos duplicados.
-- Aplicar un índice único sobre el correo electrónico en SQL Server.
-
-### 🔐 Autenticación JWT
-
-- Iniciar sesión mediante correo electrónico y contraseña.
-- Verificar contraseñas mediante BCrypt.
-- Generar tokens JWT para usuarios autenticados.
-- Validar la firma, el emisor, la audiencia y la vigencia del token.
-- Proteger endpoints mediante `[Authorize]`.
-- Probar los endpoints desde Swagger utilizando Bearer Token.
-
-### 🧱 Buenas prácticas
-
-- Arquitectura por capas.
-- Separación de responsabilidades mediante interfaces y servicios.
-- Uso de DTOs para las entradas y salidas de la API.
-- Validaciones de datos.
-- Respuestas consistentes mediante `ApiResponseDto<T>`.
-- Manejo global de excepciones.
-- Logging.
-- Control de versiones con Git y GitHub.
-
----
-
-## 🏗️ Arquitectura
-
-El backend utiliza una arquitectura por capas para separar las responsabilidades y facilitar el mantenimiento.
+## 🏗️ Arquitectura del proyecto
 
 ```text
 ProyectoFullStack/
@@ -119,86 +77,51 @@ ProyectoFullStack/
 │   └── ProyectoFullStack/
 │       └── ProyectoFullStack.API/
 │           ├── Controllers/
-│           ├── Services/
-│           ├── Interfaces/
 │           ├── Data/
-│           ├── Models/
 │           ├── DTOs/
-│           ├── Middleware/
-│           ├── Mapping/
-│           ├── Program.cs
-│           └── appsettings.json
+│           ├── Interfaces/
+│           ├── Models/
+│           ├── Services/
+│           └── Program.cs
 │
-├── Frontend/          # Integración con Angular planificada
-├── BaseDatos/         # Documentación y recursos de SQL Server
-├── Documentacion/     # Documentación técnica del proyecto
+├── Frontend/
+│   └── frontend/
+│       └── src/
+│           └── app/
+│               ├── pages/
+│               └── services/
+│
+├── BaseDatos/
+├── Documentacion/
 └── README.md
 ```
 
-> La estructura muestra la organización prevista del proyecto. Algunas carpetas pueden incorporarse a medida que avance el desarrollo.
+## 🔄 Comunicación entre las tecnologías
 
-### Flujo de la aplicación
-
-```text
-Cliente / Swagger
-       |
-       v
-   Controller
-       |
-       v
-     Service
-       |
-       v
-ApplicationDbContext
-       |
-       v
-    SQL Server
-```
-
-Los DTOs permiten controlar los datos que recibe y devuelve la API. El middleware gestiona las excepciones no controladas y el sistema de logging registra eventos relevantes.
-
----
+1. Angular realiza solicitudes HTTP.
+2. ASP.NET Core Web API recibe y procesa las solicitudes.
+3. Entity Framework Core permite consultar o modificar la información.
+4. SQL Server almacena los datos.
+5. El Backend devuelve una respuesta que Angular procesa y muestra al usuario.
 
 ## 🗄️ Base de datos
 
-La aplicación utiliza SQL Server y Entity Framework Core.
+Nombre de la base de datos:
 
-### Entidades principales
+`ProyectoFullStackDB`
 
-**Producto**
+La aplicación utiliza SQL Server y Entity Framework Core para administrar las entidades y sus migraciones.
 
-- `Id`
-- `Nombre`
-- `Precio`
-- `Stock`
+## ▶️ Ejecución del proyecto
 
-**Usuario**
+### Requisitos previos
 
-- `Id`
-- `Nombre`
-- `Email`
-- `PasswordHash`
-- `Rol`
-
-La tabla de usuarios cuenta con un índice único sobre `Email` para impedir registros duplicados con el mismo valor de correo.
-
-La contraseña se almacena como hash generado mediante BCrypt; no se debe almacenar ni exponer la contraseña original.
-
----
-
-## 💻 Requisitos previos
-
-Antes de ejecutar el backend, instala:
-
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [SQL Server](https://www.microsoft.com/sql-server/sql-server-downloads)
-- [SQL Server Management Studio](https://learn.microsoft.com/sql/ssms/download-sql-server-management-studio-ssms)
-- [Visual Studio 2022](https://visualstudio.microsoft.com/vs/)
-- Git
-
----
-
-## ⚙️ Instalación y ejecución
+- Visual Studio 2022.
+- .NET 8 SDK.
+- SQL Server.
+- SQL Server Management Studio.
+- Node.js y npm.
+- Angular CLI.
 
 ### 1. Clonar el repositorio
 
@@ -206,85 +129,71 @@ Antes de ejecutar el backend, instala:
 git clone https://github.com/csanchezm21/ProyectoFullStack.git
 ```
 
-Entrar en la carpeta del proyecto:
+### 2. Configurar el Backend
+
+Abrir la solución del Backend en Visual Studio 2022.
+
+Configurar la cadena de conexión a SQL Server en `appsettings.json`, utilizando los datos de la instancia local.
+
+**Importante:** No publicar contraseñas ni credenciales reales en el repositorio.
+
+Verificar la base de datos y ejecutar las migraciones cuando sea necesario.
+
+Iniciar el proyecto ASP.NET Core Web API.
+
+### 3. Ejecutar el Frontend
+
+Abrir una terminal dentro de la carpeta:
 
 ```bash
-cd ProyectoFullStack
+cd Frontend/frontend
 ```
 
-### 2. Configurar SQL Server
-
-Crea o configura una instancia de SQL Server y prepara la cadena de conexión para la base de datos `ProyectoFullStackDB`.
-
-Configura la conexión en los ajustes locales de la aplicación. No publiques contraseñas, claves privadas ni credenciales reales en GitHub.
-
-### 3. Configurar JWT
-
-Configura los valores requeridos por la aplicación para JWT, incluyendo:
-
-- Clave de firma.
-- Issuer.
-- Audience.
-
-Utiliza una clave segura y mantenla fuera de los archivos versionados cuando corresponda.
-
-### 4. Restaurar dependencias
-
-Desde la carpeta que contiene `ProyectoFullStack.API.csproj`, ejecuta:
+Instalar las dependencias:
 
 ```bash
-dotnet restore
+npm install
 ```
 
-### 5. Aplicar migraciones
-
-Si la base de datos todavía no está actualizada, desde la Consola del Administrador de paquetes NuGet de Visual Studio puedes ejecutar:
-
-```powershell
-Update-Database
-```
-
-Verifica la cadena de conexión y el proyecto predeterminado antes de ejecutar migraciones.
-
-### 6. Ejecutar la API
-
-Desde la carpeta del proyecto de la API:
+Iniciar Angular:
 
 ```bash
-dotnet run
+ng serve
 ```
 
-Abre la URL que aparezca en la consola. Si Swagger está habilitado para el entorno de ejecución, accede a la ruta `/swagger`.
+Abrir en el navegador:
 
----
+`http://localhost:4200`
 
-## 🧪 Pruebas de la API
+## 📌 Estado actual del proyecto
 
-Los endpoints se prueban mediante Swagger.
+El Backend cuenta con funcionalidades de productos, registro, inicio de sesión, autenticación JWT y autorización por roles.
 
-Las pruebas realizadas incluyen:
+El Frontend ya cuenta con sus pantallas iniciales y realiza consultas exitosas al Backend para mostrar los productos almacenados en SQL Server.
 
-- Consultas y operaciones CRUD de productos.
-- Validaciones de datos.
-- Registro de usuarios.
-- Rechazo de correos electrónicos duplicados.
-- Validación de credenciales en el login.
-- Generación y validación de tokens JWT.
-- Acceso a endpoints protegidos mediante autenticación.
+La integración de autenticación y las operaciones CRUD desde Angular continúan en desarrollo.
 
-Los endpoints y sus rutas exactas pueden consultarse en Swagger una vez ejecutada la API.
+## 🗺️ Próximas mejoras
 
-
+- [ ] Integrar el registro de usuarios desde Angular.
+- [ ] Integrar el inicio de sesión con JWT.
+- [ ] Almacenar y administrar el token de autenticación.
+- [ ] Implementar protección de rutas.
+- [ ] Implementar CRUD completo de productos desde Angular.
+- [ ] Mejorar validaciones y manejo de errores.
+- [ ] Realizar pruebas funcionales.
+- [ ] Desplegar la aplicación en la nube.
+- [ ] Completar la documentación técnica.
 
 ## 👨‍💻 Autor
 
 **César Sánchez**
 
-Estudiante de Ingeniería de Software, enfocado en el desarrollo backend con C#, .NET y SQL Server, con interés en construir aplicaciones Full Stack y fortalecer sus conocimientos en arquitectura de software y buenas prácticas de programación.
+Estudiante de Ingeniería de Software, desarrollando este proyecto como parte de su proceso de aprendizaje y preparación para oportunidades profesionales en desarrollo de software.
 
-- **GitHub:** [@csanchezm21](https://github.com/csanchezm21)
-- **Repositorio:** [ProyectoFullStack](https://github.com/csanchezm21/ProyectoFullStack)
+- GitHub: https://github.com/csanchezm21
+- Proyecto: https://github.com/csanchezm21/ProyectoFullStack
 
 ---
 
-
+⭐ Este proyecto continúa en desarrollo. Su objetivo es fortalecer conocimientos en desarrollo Backend, Frontend, bases de datos y construcción de aplicaciones Full Stack.
