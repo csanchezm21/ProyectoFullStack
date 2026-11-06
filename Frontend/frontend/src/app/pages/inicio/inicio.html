@@ -1,15 +1,50 @@
-<main class = "inicio">
+
+<main class="inicio">
+
+  <!-- Título principal de nuestra aplicación -->
   <h1>Bienvenido a ProyectoFullStack</h1>
 
-  <p> 
-    Sistema de gestion de productos y ususarios.
+  <p>
+    Sistema de gestión de productos y usuarios.
   </p>
 
   <p>
-    Iniciaremos construyendo nuestra aplicacion paso a paso.
+    Iniciaremos construyendo nuestra aplicación paso a paso.
   </p>
+
+  <!-- Enlaces para navegar entre las pantallas -->
   <a routerLink="/login">Iniciar sesión</a>
   <br>
   <a routerLink="/registro">Crear cuenta</a>
+
+  <!-- Sección donde mostraremos los productos del Backend -->
+  <section class="productos">
+
+    <h2>Productos disponibles</h2>
+
+    <!-- Recorremos la lista de productos recibidos desde .NET -->
+    @for (producto of productos; track producto.id) {
+
+      <article class="producto">
+
+        <!-- Mostramos la información de cada producto -->
+        <h3>{{ producto.nombre }}</h3>
+
+        <p>Precio: {{ producto.precio }}</p>
+
+        <p>Stock disponible: {{ producto.stock }}</p>
+
+      </article>
+
+    } @empty {
+
+      <!-- Este mensaje aparece si no hay productos registrados -->
+      <p>No hay productos disponibles.</p>
+
+    }
+
+  </section>
+
 </main>
+
 

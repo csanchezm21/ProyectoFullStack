@@ -1,20 +1,78 @@
-.inicio
-{
-    max-width: 800px;
-    margin: 60px auto;
+
+/* Contenedor principal de la pantalla de inicio */
+.inicio {
+    max-width: 1000px;
+    margin: 40px auto;
     padding: 30px;
     font-family: Arial, sans-serif;
     background-color: #f4f7fb;
     border-radius: 12px;
 }
 
-h1 {
+/* Estilo del título principal */
+.inicio h1 {
     color: #1d4ed8;
     font-size: 32px;
 }
 
-p {
+/* Estilo de los párrafos de bienvenida */
+.inicio > p {
     color: #374151;
     font-size: 18px;
     line-height: 1.6;
+}
+
+/* Espacio entre los enlaces de navegación */
+.inicio > a {
+    display: inline-block;
+    margin: 5px 0;
+    color: #1d4ed8;
+    font-weight: bold;
+}
+
+/* Contenedor de la sección de productos */
+.productos {
+    margin-top: 35px;
+}
+
+/* Título de la sección de productos */
+.productos h2 {
+    color: #1f2937;
+    margin-bottom: 20px;
+}
+
+/* Tarjeta individual de cada producto */
+.producto {
+    background-color: white;
+    border: 1px solid #dbeafe;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Nombre del producto */
+.producto h3 {
+    color: #1d4ed8;
+    margin-top: 0;
+    font-size: 21px;
+}
+
+/* Precio y cantidad disponible */
+.producto p {
+    color: #374151;
+    font-size: 16px;
+    margin: 8px 0;
+}
+
+/* Adaptación para pantallas pequeñas */
+@media (max-width: 600px) {
+    .inicio {
+        margin: 15px;
+        padding: 20px;
+    }
+
+    .inicio h1 {
+        font-size: 25px;
+    }
 }
